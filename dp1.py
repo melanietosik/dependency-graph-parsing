@@ -16,8 +16,10 @@ class Sim(object):
     """ Provides some basic statistics on semantic dependency graphs """
 
     def __init__(self, simfile):
-        # Dictionary {indegree=outdegree : number of words with inoutdegree}
-        self.inoutdegree = {}
+        # Dictionary {indegree : number of words with indegree}
+        self.indegree = {}
+        # Dictionary {outdegree : number of words with outdegree}
+        self.outdegree = {}
         self.numbers(simfile)
         self.plots()
 
@@ -39,6 +41,8 @@ class Sim(object):
         number_of_predicates = 0
         # Count number of singletons
         number_of_singletons = 0
+        # Dictionary {Column index : Number of pred_arg roles}
+        columns = {}
 
         with open(simfile, 'r+') as f:
             for line in f:
@@ -56,16 +60,26 @@ class Sim(object):
                             if field_line[1] not in string.punctuation:
                                 number_of_words += 1
 
-                                # Indegree = outdegree = number of pred-arg roles
-                                arg_cnt = 0
+                                # Indegree = number of pred-arg roles per row
+                                in_cnt = 0
                                 for field in field_line[6:]:
                                     if field.strip() not in string.punctuation:
-                                        arg_cnt += 1
+                                        in_cnt += 1
 
-                                if arg_cnt in self.inoutdegree.keys():
-                                    self.inoutdegree[arg_cnt] = self.inoutdegree[arg_cnt] + 1
+                                if in_cnt in self.indegree.keys():
+                                    self.indegree[in_cnt] = self.indegree[in_cnt] + 1
                                 else:
-                                    self.inoutdegree[arg_cnt] = 1
+                                    self.indegree[in_cnt] = 1
+
+                                # Sums number of pred-arg roles per column
+                                column_index = 0
+                                for field in field_line[6:]:
+                                    column_index += 1
+                                    if field.strip() not in string.punctuation:
+                                        if column_index in columns.keys():
+                                            columns[column_index] += 1
+                                        else:
+                                            columns[column_index] = 1
 
                             # Fields 5,6: top, pred
                             if field_line[5] == '+':
@@ -81,37 +95,71 @@ class Sim(object):
                             if field_line[4:6] == ['-','-'] and all(field.strip() == '_' for field in field_line[6:]):
                                 number_of_singletons += 1
 
+                    # Outdegree = number of pred_arg roles per column
+                    for out_cnt in columns.itervalues():
+                        if out_cnt in self.outdegree.keys():
+                            self.outdegree[out_cnt] += 1
+                        else:
+                            self.outdegree[out_cnt] = 1
+
                     sentence = []
+                    columns = {}
 
             print 'Number of graphs:', number_of_sentences
             print 'Number of words:', number_of_words
             print 'Number of different edge labels:', len(label_set)
             print 'Average number of predicates per sentence:', round((number_of_predicates/number_of_sentences),1)
             print 'Average number of singletons per sentence:', round((number_of_singletons/number_of_sentences),1)
-            #print self.inoutdegree
 
     def plots(self):
-        histogram = sorted(self.inoutdegree.items(), key=itemgetter(0), reverse=False)
-        inout_max = histogram[-1][0]
-
-        hist_dict = dict(histogram)
-        print hist_dict
 
         fig = plt.figure()
-        x_axis = []
-        y_axis = []
 
-        for i in hist_dict.keys():
-            x_axis.append(i)
-            y_axis.append(hist_dict[i])
+        # Plot indegree
+        # x_axis: Number of words
+        # y_axis: Indegree
 
-        plt.xticks(x_axis)
+        histogram_indegree = sorted(self.indegree.items(), key=itemgetter(0), reverse=False)
+        hist_dict_in = dict(histogram_indegree)
 
-        out = plt.subplot(111)
-        out.bar(x_axis, y_axis, width=0.25, align='center')
+        histogram_outdegree = sorted(self.outdegree.items(), key=itemgetter(0), reverse=False)
+        hist_dict_out = dict(histogram_outdegree)
 
-        out.set_xlabel('indegree=outdegree')
-        out.set_ylabel('number of words')
+        x_axis_in = []
+        y_axis_in = []
+
+        for i in hist_dict_in.keys():
+            x_axis_in.append(i)
+            y_axis_in.append(hist_dict_in[i])
+
+        plt.xticks(x_axis_in)
+
+        indeg = fig.add_subplot(1,2,1)
+        indeg.bar(x_axis_in, y_axis_in, width=0.25, align='center')
+
+        indeg.set_xlabel('Indegree')
+        indeg.set_ylabel('Number of words')
+
+
+        # Plot outdegree
+        # x_axis: Number of words
+        # y_axis: Indegree
+
+        x_axis_out = []
+        y_axis_out = []
+
+        for i in hist_dict_out.keys():
+            x_axis_out.append(i)
+            y_axis_out.append(hist_dict_out[i])
+
+        plt.xticks(x_axis_out)
+
+        outdeg = fig.add_subplot(1,2,2)
+        outdeg.bar(x_axis_out, y_axis_out, width=0.25, align='center')
+
+        outdeg.set_xlabel('Outdegree')
+        outdeg.set_ylabel('Number of words')
+
         plt.show()
 
 
@@ -119,4 +167,4 @@ if __name__ == '__main__':
     if len(sys.argv) == 2:
         sim = Sim(sys.argv[1])
     else:
-        print 'Usage: python dp1.py <file>'
+        print 'Usage: python dp1.py <data file>'
