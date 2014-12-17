@@ -14,7 +14,7 @@ python dp1.py DATAFILE
 DESCRIPTION
 -----------
 
-Computes basic stats for semantic dependency graphs and generates simple plots for distribution of words per indegree or outdegree 
+Computes basic statistics for semantic dependency graphs and generates simple plots for distribution of words per indegree or outdegree 
 
 DATA FORMAT
 -----------
