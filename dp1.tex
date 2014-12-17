@@ -1,0 +1,102 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage[procnames]{listings}
+\usepackage{color}
+\author{Melanie Tosik}
+\title{Dependency Parsing, assignment 1}
+\begin{document}
+\maketitle
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+
+\lstset{language=Python, 
+        basicstyle=\ttfamily\small, 
+        keywordstyle=\color{keywords},
+        commentstyle=\color{comments},
+        stringstyle=\color{red},
+        showstringspaces=false,
+        identifierstyle=\color{green},
+        procnamekeys={def,class},
+    	label={dp1.py},
+    	breaklines=true}
+
+\section{DM: MRS-Derived Semantic Dependencies}
+
+\begin{tabular}{lr}
+\hline\hline
+Number of graphs: & 1614\\ 
+\hline
+Number of words: &  31184\\ 
+\hline
+Number of different edge labels: & 35\\ 
+\hline 
+Average number of predicates per sentence:  & 12.1\\ 
+\hline 
+Average number of singletons per sentence: & 4.9\\
+\hline\hline
+\end{tabular}
+\vspace{10pt}
+
+\begin{center}
+\includegraphics[width=0.65\textwidth]{indegree_dm.pdf}
+
+\includegraphics[width=0.65\textwidth]{outdegree_dm.pdf}
+\end{center}
+
+
+\section{PAS: Enju Predicate--Argument Structures}
+
+\begin{tabular}{lr}
+\hline\hline
+Number of graphs: & 1614\\ 
+\hline
+Number of words: &  31184\\ 
+\hline
+Number of different edge labels: & 39\\ 
+\hline 
+Average number of predicates per sentence:  & 15.3\\ 
+\hline 
+Average number of singletons per sentence: & 1.0\\
+\hline\hline
+\end{tabular}
+\vspace{10pt}
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{indegree_pas.pdf}
+\includegraphics[width=0.8\textwidth]{outdegree_pas.pdf}
+\end{center}
+
+\section{PCEDT: Parts of the Tectogrammatical Layer}
+
+\begin{tabular}{lr}
+\hline\hline
+Number of graphs: & 1614\\ 
+\hline
+Number of words: &  31184\\ 
+\hline
+Number of different edge labels: & 64\\ 
+\hline 
+Average number of predicates per sentence:  & 7.4\\ 
+\hline 
+Average number of singletons per sentence: & 7.8\\
+\hline\hline
+\end{tabular}
+\vspace{10pt}
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{indegree_pcedt.pdf}
+\includegraphics[width=0.8\textwidth]{outdegree_pcedt.pdf}
+\end{center}
+
+\pagebreak
+\lstinputlisting{dp1.py}
+
+\end{document}
