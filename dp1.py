@@ -22,7 +22,7 @@ class Sim(object):
         # Dictionary {outdegree : number of words with outdegree}
         self.outdegree = {}
         self.numbers(simfile)
-        self.plots()
+        #self.plots()
 
     def numbers(self, simfile):
 
@@ -133,20 +133,20 @@ class Sim(object):
         plt.show()
 
 
-        # # Plot outdegree
-        # # x_axis: Number of words
-        # # y_axis: Outdegree
+        # Plot outdegree
+        # x_axis: Number of words
+        # y_axis: Outdegree
 
-        # histogram_outdegree = sorted(self.outdegree.items(), key=itemgetter(0), reverse=False)
-        # hist_dict_out = dict(histogram_outdegree)
+        histogram_outdegree = sorted(self.outdegree.items(), key=itemgetter(0), reverse=False)
+        hist_dict_out = dict(histogram_outdegree)
 
-        # plt.bar(range(len(hist_dict_out)), hist_dict_out.values(), align='center', width=0.25, color='r')
-        # plt.xticks(range(len(hist_dict_out)), hist_dict_out.keys())
+        plt.bar(range(len(hist_dict_out)), hist_dict_out.values(), align='center', width=0.25, color='b')
+        plt.xticks(range(len(hist_dict_out)), hist_dict_out.keys())
 
-        # plt.xlabel('Outdegree')
-        # plt.ylabel('Number of words')
+        plt.xlabel('Outdegree')
+        plt.ylabel('Number of words')
 
-        # plt.show()
+        plt.show()
 
 
 if __name__ == '__main__':
