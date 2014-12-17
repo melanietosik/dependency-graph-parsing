@@ -68,7 +68,7 @@ class Sim(object):
                                         in_cnt += 1
 
                                 if in_cnt in self.indegree.keys():
-                                    self.indegree[in_cnt] = self.indegree[in_cnt] + 1
+                                    self.indegree[in_cnt] += 1
                                 else:
                                     self.indegree[in_cnt] = 1
 
