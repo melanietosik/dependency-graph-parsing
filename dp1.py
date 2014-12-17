@@ -12,6 +12,7 @@ from operator import itemgetter
 import matplotlib.pyplot as plt
 import numpy as np 
 
+
 class Sim(object):
     """ Provides some basic statistics on semantic dependency graphs """
 
@@ -111,9 +112,10 @@ class Sim(object):
             print 'Average number of predicates per sentence:', round((number_of_predicates/number_of_sentences),1)
             print 'Average number of singletons per sentence:', round((number_of_singletons/number_of_sentences),1)
 
-    def plots(self):
+            print '{Indegree : number of words}: ', self.indegree
+            print '{Outdegree : number of words}: ', self.outdegree
 
-        fig = plt.figure()
+    def plots(self):
 
         # Plot indegree
         # x_axis: Number of words
@@ -122,45 +124,29 @@ class Sim(object):
         histogram_indegree = sorted(self.indegree.items(), key=itemgetter(0), reverse=False)
         hist_dict_in = dict(histogram_indegree)
 
-        histogram_outdegree = sorted(self.outdegree.items(), key=itemgetter(0), reverse=False)
-        hist_dict_out = dict(histogram_outdegree)
+        plt.bar(range(len(hist_dict_in)), hist_dict_in.values(), align='center', width=0.25, color='r')
+        plt.xticks(range(len(hist_dict_in)), hist_dict_in.keys())
 
-        x_axis_in = []
-        y_axis_in = []
-
-        for i in hist_dict_in.keys():
-            x_axis_in.append(i)
-            y_axis_in.append(hist_dict_in[i])
-
-        plt.xticks(x_axis_in)
-
-        indeg = fig.add_subplot(1,2,1)
-        indeg.bar(x_axis_in, y_axis_in, width=0.25, align='center')
-
-        indeg.set_xlabel('Indegree')
-        indeg.set_ylabel('Number of words')
-
-
-        # Plot outdegree
-        # x_axis: Number of words
-        # y_axis: Indegree
-
-        x_axis_out = []
-        y_axis_out = []
-
-        for i in hist_dict_out.keys():
-            x_axis_out.append(i)
-            y_axis_out.append(hist_dict_out[i])
-
-        plt.xticks(x_axis_out)
-
-        outdeg = fig.add_subplot(1,2,2)
-        outdeg.bar(x_axis_out, y_axis_out, width=0.25, align='center')
-
-        outdeg.set_xlabel('Outdegree')
-        outdeg.set_ylabel('Number of words')
+        plt.xlabel('Indegree')
+        plt.ylabel('Number of words')
 
         plt.show()
+
+
+        # # Plot outdegree
+        # # x_axis: Number of words
+        # # y_axis: Outdegree
+
+        # histogram_outdegree = sorted(self.outdegree.items(), key=itemgetter(0), reverse=False)
+        # hist_dict_out = dict(histogram_outdegree)
+
+        # plt.bar(range(len(hist_dict_out)), hist_dict_out.values(), align='center', width=0.25, color='r')
+        # plt.xticks(range(len(hist_dict_out)), hist_dict_out.keys())
+
+        # plt.xlabel('Outdegree')
+        # plt.ylabel('Number of words')
+
+        # plt.show()
 
 
 if __name__ == '__main__':
