@@ -9,7 +9,7 @@ dp1.py - Dependency parsing, assignment 1
 SYNOPSIS
 --------
 
-python dp1.py DATAFILE
+`python dp1.py DATAFILE`
 
 DESCRIPTION
 -----------
@@ -19,11 +19,8 @@ Computes basic statistics for semantic dependency graphs and generates simple pl
 DATA FORMAT
 -----------
 
-Following [SemEval-2014 Task 8] [1]
+Following [SemEval-2014 Task 8](http://alt.qcri.org/semeval2014/task8/index.php?id=data-and-tools)
 
 AUTHOR
 ------
 Melanie Tosik, tosik@uni-potsdam.de
-
-
-[1]: http://alt.qcri.org/semeval2014/task8/index.php?id=data-and-tools
